@@ -1,73 +1,48 @@
-using System.Collections.Generic;
+namespace LunaLang;
 
-namespace LunaLang
+public interface INode
 {
-    public interface INode
-    {
-        string TokenLiteral();
-    }
+    string TokenLiteral();
+}
 
-    public interface IStatement : INode
-    {
-        void StatementNode();
-    }
+public interface IStatement : INode
+{
+    void StatementNode();
+}
 
-    public interface IExpression : INode
-    {
-        void ExpressionNode();
-    }
+public interface IExpression : INode
+{
+    void ExpressionNode();
+}
 
-    public class Program
-    {
-        public List<IStatement> Statements = new List<IStatement>();
+public class Program
+{
+    public List<IStatement> Statements { get; set; } = new();
 
-        public string TokenLiteral()
-        {
-            if (Statements.Count > 0)
-            {
-                return Statements[0].TokenLiteral();
-            }
-            else
-            {
-                return "";
-            }
-        }
-    }
+    public string TokenLiteral() => Statements.Count > 0 ? Statements[0].TokenLiteral() : string.Empty;
+}
 
-    public class Ast
-    {
-    }
+public class Ast
+{
+}
 
-    public class LetStatement : IStatement
-    {
-        public Token Token { get; set; }
-        public Identifier Name { get; set; }
-        public IExpression Value { get; set; }
+public class LetStatement : IStatement
+{
+    public Token Token { get; set; }
+    public Identifier Name { get; set; }
+    public IExpression Value { get; set; }
 
-        public void StatementNode()
-        {
+    public void StatementNode() { }
 
-        }
+    public string TokenLiteral() => Token.Literal;
+}
 
-        public string TokenLiteral()
-        {
-            return Token.Literal;
-        }
-    }
+public class Identifier : IExpression
+{
+    public Token Token { get; set; }
+    public string Value { get; set; }
 
-    public class Identifier : IExpression
-    {
-        public Token Token { get; set; }
-        public string Value { get; set; }
+    public void ExpressionNode() { }
 
-        public void ExpressionNode()
-        {
-
-        }
-
-        public string TokenLiteral()
-        {
-            return Token.Literal;
-        }
-    }
+    public string TokenLiteral() => Token.Literal;
 }
